@@ -14,10 +14,10 @@
         android:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_create_order"
-        android:icon="@drawable/baseline_ballot_black_24"
+        android:icon="@drawable/pokupka_white"
         android:orderInCategory="1"
-        android:title="@string/action_create_order"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="ifRoom"
+        android:title="@string/action_create_order" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="101"
