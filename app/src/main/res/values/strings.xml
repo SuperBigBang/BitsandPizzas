@@ -4,4 +4,20 @@
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
     <string name="title_activity_order">Order</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_top">Top fragment</string>
+    <string-array name="pizzas">
+        <item>Diavolo</item>
+        <item>Funghi</item>
+    </string-array>
+    <string-array name="pasta">
+        <item>Spaghetti Bolognese</item>
+        <item>Lasaghe</item>
+    </string-array>
+    <string-array name="stores">
+        <item>Cambridge</item>
+        <item>Sebastopol</item>
+    </string-array>
 </resources>
