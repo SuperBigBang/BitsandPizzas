@@ -3,6 +3,7 @@ package com.hfad.bitsandpizzas;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -26,6 +27,12 @@ private ActionBarDrawerToggle drawerToggle;
     private ShareActionProvider shareActionProvider;
     private int currentPosition=0;
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("position", currentPosition);
+    }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -34,6 +41,7 @@ selectItem(position);
     }
 
     private void selectItem(int position) {
+        currentPosition=position;
         Fragment fragment;
         switch (position) {
             case 1:
@@ -49,7 +57,7 @@ selectItem(position);
                 fragment = new TopFragment();
         }
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frame, fragment);
+        ft.replace(R.id.content_frame, fragment, "visible_fragment");
         ft.addToBackStack(null);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
@@ -73,7 +81,12 @@ selectItem(position);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, titles)); //simple_list_item_activated_1 этот режим обозначает, что вариано на котором щёлкнул пользователь, выделяется подсветкой
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
-        if (savedInstanceState==null) {selectItem(0);}
+        if (savedInstanceState != null) {
+            currentPosition = savedInstanceState.getInt("position");
+            setActionBarTitle(currentPosition);
+        } else {
+            selectItem(0);
+        }
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.string.open_drawer, R.string.close_drawer) {
@@ -89,6 +102,20 @@ selectItem(position);
                 invalidateOptionsMenu();
             }
         };
+        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                FragmentManager fragMan = getFragmentManager();
+                Fragment fragment = fragMan.findFragmentByTag("visible_fragment");
+                if (fragment instanceof TopFragment){currentPosition=0;}
+                if (fragment instanceof PizzaFragment){currentPosition=1;}
+                if (fragment instanceof PastaFragment){currentPosition=2;}
+                if (fragment instanceof StoresFragment){currentPosition=3;}
+                setActionBarTitle(currentPosition);
+                drawerList.setItemChecked(currentPosition,true);
+            }
+
+        });
     }
 
     @Override
