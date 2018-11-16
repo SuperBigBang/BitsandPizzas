@@ -45,7 +45,7 @@ selectItem(position);
         Fragment fragment;
         switch (position) {
             case 1:
-                fragment = new PizzaFragment();
+                fragment = new PizzaMaterialFragment();
                 break;
             case 2:
                 fragment = new PastaFragment();
@@ -76,8 +76,8 @@ selectItem(position);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         titles = getResources().getStringArray(R.array.titles);
-        drawerList = (ListView) findViewById(R.id.drawer);
-        drawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerList = findViewById(R.id.drawer);
+        drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, titles)); //simple_list_item_activated_1 этот режим обозначает, что вариано на котором щёлкнул пользователь, выделяется подсветкой
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -108,7 +108,10 @@ selectItem(position);
                 FragmentManager fragMan = getFragmentManager();
                 Fragment fragment = fragMan.findFragmentByTag("visible_fragment");
                 if (fragment instanceof TopFragment){currentPosition=0;}
-                if (fragment instanceof PizzaFragment){currentPosition=1;}
+                //    if (fragment instanceof PizzaFragment){currentPosition=1;}
+                if (fragment instanceof PizzaMaterialFragment) {
+                    currentPosition = 1;
+                }
                 if (fragment instanceof PastaFragment){currentPosition=2;}
                 if (fragment instanceof StoresFragment){currentPosition=3;}
                 setActionBarTitle(currentPosition);
